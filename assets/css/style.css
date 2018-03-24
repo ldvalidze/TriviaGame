@@ -1,0 +1,25 @@
+body {
+    background-image: url("../images/background.jpg");
+}
+
+.text-white {
+    width: 60%;
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 70px;
+    color: blanchedalmond;
+}
+
+.card-img {
+    border: solid blanchedalmond 3px;
+}
+
+.card-img-overlay {
+    text-align: center;
+    margin: 0 auto;
+}
