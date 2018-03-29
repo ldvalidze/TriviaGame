@@ -128,33 +128,36 @@ $(document).ready(function () {
     var correct = 0;
     var incorrect = 0;
     var nextQuestion = false;
+    var number = 10;
+    var intervalId;
+
+    function run() {
+        clearInterval(intervalId);
+        intervalId = setInterval(decrement, 1000);
+      }
+
+    function decrement() {
+        number--;
+        $("#timer").html("<h3>Time left :  " + number + "</h3>");
+        if (number === 0) {
+          stop();
+          $("#question").text("TIme is up! Correct answer  :  " + results[0].correct_answer);
+        }
+    }
+
+    function stop() {
+        clearInterval(intervalId);
+      }
 
     $("#startGame").on("click", function () {
         $(".label").show();
 
         displayQuestion ();
+        run ();
     });
 
-    $(document).on("click", ".label", function () {
-            console.log($(this)[0].innerHTML);
-         if ($(this)[0].innerHTML == results[0].correct_answer) {
-             $("#question").text("Correct!");
-             $(".label").hide();
-             correct ++;
-             console.log(correct);
-             nextQuestion = true;
-         } else {
-             $("#question").text("Incorrect!");
-             $(".label").hide();
-             incorrect ++;
-             console.log(incorrect);
-             nextQuestion = true;
-         }
-    });
+    $(document).on("click", ".label", check);
 
-    if (nextQuestion == true) {
-        displayQuestion();
-    }
 
     function displayQuestion () {
         $("#startGame").hide();
@@ -168,7 +171,21 @@ $(document).ready(function () {
     };
     
     function check () {
-        
+         if ($(this)[0].innerHTML == results[0].correct_answer) {
+             $("#question").text("Correct!  :  " + results[0].correct_answer);
+             $(".label").hide();
+             correct ++;
+             console.log(correct);
+             nextQuestion = true;
+             stop ();
+         } else {
+             $("#question").text("Incorrect!   :  " + results[0].correct_answer);
+             $(".label").hide();
+             incorrect ++;
+             console.log(incorrect);
+             nextQuestion = true;
+             stop ();
+         }
     }
 });
 
