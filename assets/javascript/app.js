@@ -130,11 +130,26 @@ $(document).ready(function () {
     var nextQuestion = false;
     var number = 10;
     var intervalId;
+    var i = 0;
+
+    var displayQuestion = function () {
+        run ();
+        $(".label").show();
+        $("#startGame").hide();
+        $("#question").text(results[i].question);
+        $("#opt1").text(results[i].correct_answer);
+        $("#opt1").attr("value" , results[i].correct_answer);
+
+        $("#opt2").text(results[i].incorrect_answers[0]);
+        $("#opt3").text(results[i].incorrect_answers[1]);
+        $("#opt4").text(results[i].incorrect_answers[2]);
+    };
 
     function run() {
+        number = 10;
         clearInterval(intervalId);
         intervalId = setInterval(decrement, 1000);
-      }
+    }
 
     function decrement() {
         number--;
@@ -147,28 +162,15 @@ $(document).ready(function () {
 
     function stop() {
         clearInterval(intervalId);
-      }
+    }
 
     $("#startGame").on("click", function () {
         $(".label").show();
 
         displayQuestion ();
-        run ();
     });
 
     $(document).on("click", ".label", check);
-
-
-    function displayQuestion () {
-        $("#startGame").hide();
-        $("#question").text(results[0].question);
-        $("#opt1").text(results[0].correct_answer);
-        $("#opt1").attr("value" , results[0].correct_answer);
-
-        $("#opt2").text(results[0].incorrect_answers[0]);
-        $("#opt3").text(results[0].incorrect_answers[1]);
-        $("#opt4").text(results[0].incorrect_answers[2]);
-    };
     
     function check () {
          if ($(this)[0].innerHTML == results[0].correct_answer) {
@@ -177,14 +179,18 @@ $(document).ready(function () {
              correct ++;
              console.log(correct);
              nextQuestion = true;
+             i++;
              stop ();
+             displayQuestion ();
          } else {
              $("#question").text("Incorrect!   :  " + results[0].correct_answer);
              $(".label").hide();
              incorrect ++;
              console.log(incorrect);
              nextQuestion = true;
+             i++;
              stop ();
+             displayQuestion ();
          }
     }
 });
